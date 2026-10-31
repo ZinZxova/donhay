@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APP ĐỘ NHẠY PREMIUM VIP</title>
+
+<style>
+:root { --bg: #050316; --cyan: #56b8ff; --purple: #9a62f5; --panel: #201747; --outer-start:#171033; --outer-mid:#0b0820; --outer-end:#03020d; --inner-start:#201644; --inner-mid:#121439; --inner-end:#0c0a25; --accent-a:#258fdc; --accent-b:#5268e4; --accent-c:#7953d7; --accent-d:#a65ad0; --slider-a:#43b9e8; --slider-b:#7c72e8; --slider-c:#a77be8; }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+}
+
+body {
+    background: radial-gradient(ellipse at 50% 0%, var(--outer-start) 0%, var(--outer-mid) 48%, var(--outer-end) 100%); transition: background .25s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* SNOW */
+.snow {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 8px;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+@keyframes fall { to { transform: translateY(110vh); } }
+
+/* BORDER RGB */
+.container {
+    width: 95%;
+    max-width: 420px;
+    padding: 2px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--accent-a) 0%, var(--accent-b) 35%, var(--accent-d) 68%, var(--accent-c) 100%);
+    background-size: 250% 250%;
+    animation: rgb 8s ease-in-out infinite;
+    box-shadow: 0 0 16px rgba(130, 78, 220, 0.25), 0 0 28px rgba(48, 110, 220, 0.12);
+}
+@keyframes rgb {
+    0% {background-position: 0%}
+    100% {background-position: 400%}
+}
+
+.inner {
+    background: linear-gradient(145deg, var(--inner-start) 0%, var(--inner-mid) 55%, var(--inner-end) 100%);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+}
+
+/* TITLE */
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #d3d5ff;
+}
+
+/* BUTTON STYLE */
+.btn, .btn-reset, .os-btn {
+    border-radius: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after,
+.btn-reset::after,
+.os-btn::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 13px;
+    border: 1px solid rgba(255,255,255,0.15);
+    pointer-events: none;
+}
+
+/* OS */
+.os-select {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.os-btn {
+    flex: 1;
+    padding: 10px;
+    background: linear-gradient(145deg, #251b50, #111431);
+    border: 1px solid #51448d;
+    color: white;
+    cursor: pointer;
+}
+.os-btn.active {
+    background: linear-gradient(110deg, var(--accent-a) 0%, var(--accent-b) 32%, var(--accent-c) 68%, var(--accent-d) 100%);
+}
+
+/* INPUT */
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #141437, #211744);
+    border: 1px solid #6550a0;
+    border-radius: 10px;
+    color: white;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #8b5cff;
+    box-shadow: 0 0 9px rgba(139,92,255,0.18);
+}
+
+/* MAIN BUTTON */
+.btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: linear-gradient(110deg, var(--accent-a) 0%, var(--accent-b) 32%, var(--accent-c) 68%, var(--accent-d) 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(126,70,255,0.24), 0 0 7px rgba(54,105,255,0.16);
+}
+
+/* RESET */
+.btn-reset {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: linear-gradient(110deg, #211a45, #12152f);
+    border: 1px solid #514582;
+    color: #d6d0ff;
+    border: none;
+    cursor: pointer;
+}
+
+/* BUTTON EFFECT */
+.btn:hover, .btn-reset:hover, .os-btn:hover {
+    transform: translateY(-1px);
+}
+.btn:active, .btn-reset:active, .os-btn:active {
+    transform: scale(0.95);
+    filter: brightness(1.2);
+}
+
+/* RESULT */
+#result { margin-top: 15px; display: none; }
+.item { margin: 10px 0; }
+.device-error {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 100, 130, .65);
+    border-radius: 10px;
+    color: #ffd7df;
+    background: rgba(150, 30, 65, .18);
+    font-size: 13px;
+    line-height: 1.45;
+}
+.device-success {
+    margin: 10px 0;
+    padding: 9px 11px;
+    border: 1px solid rgba(90, 220, 180, .45);
+    border-radius: 10px;
+    color: #b9ffe8;
+    background: rgba(25, 150, 115, .12);
+    font-size: 13px;
+}
+
+/* SLIDER GAME */
+.slider-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.slider-box input {
+    width: 65%;
+    appearance: none;
+    height: 5px;
+    border-radius: 10px;
+    outline: none;
+    background: linear-gradient(
+        to right,
+        var(--slider-a) 0%,
+        var(--slider-b) 52%,
+        var(--slider-c) var(--val),
+        #30254f var(--val),
+        #30254f 100%
+    );
+    transition: 0.2s;
+}
+
+/* CLICK EFFECT */
+.slider-box input:active {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+}
+
+/* THUMB */
+.slider-box input::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 8px var(--color);
+}
+
+/* PULSE */
+.pulse {
+    animation: pulse 0.3s ease;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.value {
+    width: 40px;
+    text-align: right;
+    color: #69d9f5;
+}
+
+.fire {
+    color: red;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* RESET FLASH */
+.flash {
+    animation: flash 0.4s;
+}
+@keyframes flash {
+    0% {background: white;}
+    100% {background: linear-gradient(145deg, rgba(31, 22, 68, 0.99) 0%, rgba(18, 20, 57, 0.99) 55%, rgba(12, 10, 37, 0.99) 100%);}
+}
+
+
+/* FLOATING THEME CONTROL */
+.theme-fab{position:fixed;z-index:1001;left:calc(100% - 66px);top:62%;width:48px;height:48px;border:1px solid rgba(255,255,255,.55);border-radius:17px;color:#fff;font-size:22px;cursor:grab;touch-action:none;background:linear-gradient(140deg,#4c7cff,#8555df 60%,#c05adf);box-shadow:0 5px 18px rgba(80,72,220,.32);display:grid;place-items:center;user-select:none}
+.theme-fab:active{cursor:grabbing;transform:scale(.97)}
+.theme-panel{position:fixed;z-index:1000;right:12px;bottom:16px;width:min(330px,calc(100vw - 24px));max-height:78vh;overflow:auto;padding:16px;border:1px solid rgba(154,126,255,.6);border-radius:20px;background:linear-gradient(145deg,rgba(22,17,48,.98),rgba(8,10,31,.98));color:#f5f3ff;box-shadow:0 12px 42px rgba(0,0,0,.48),0 0 22px rgba(104,77,220,.18);backdrop-filter:blur(16px);display:none}
+.theme-panel.open{display:block}
+.theme-panel h3{font-size:16px;margin:0 0 5px;color:#e8dcff}
+.theme-panel .sub{font-size:12px;color:#b9b4db;margin-bottom:13px;line-height:1.4}
+.theme-section{padding:11px 0;border-top:1px solid rgba(174,158,255,.16)}
+.theme-section label{display:block;font-size:13px;color:#d9d5ff;margin-bottom:8px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:31px;height:31px;border-radius:10px;border:2px solid rgba(255,255,255,.4);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.theme-colors{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.color-control{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.045);font-size:12px;color:#dedaf8}
+.color-control input[type=color]{width:34px;height:28px;border:0;padding:0;background:transparent;cursor:pointer}
+.theme-actions{display:flex;gap:8px;margin-top:12px}
+.theme-actions button{flex:1;border:1px solid rgba(160,145,255,.35);border-radius:11px;padding:9px;color:#fff;background:linear-gradient(120deg,#254f9c,#6543a3);cursor:pointer;font-size:12px}
+.theme-actions .close-theme{background:#17162e}
+.display-adjust-overlay{position:fixed;inset:0;z-index:998;pointer-events:none;background:#000;opacity:0;mix-blend-mode:multiply}
+.theme-panel input[type="range"]{width:100%;accent-color:#9b7cff}
+.display-adjust-row{display:flex;gap:8px;margin-top:8px}
+.display-adjust-row button{flex:1;border:1px solid rgba(160,145,255,.35);border-radius:10px;padding:8px;color:#fff;background:linear-gradient(120deg,#254f9c,#6543a3);cursor:pointer;font-size:12px}
+.rainbow-preview{height:9px;border-radius:99px;margin-top:8px;background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet,red);background-size:200% 100%;animation:rainbowSlide 3s linear infinite}
+@keyframes rainbowSlide{to{background-position:200% 0}}
+@media(max-width:480px){.theme-panel{bottom:10px;right:10px}.theme-fab{width:44px;height:44px}}
+
+
+/* MUSIC MINI PLAYER */
+.music-fab{position:fixed;z-index:1002;left:14px;bottom:18px;width:44px;height:44px;border:1px solid rgba(255,255,255,.35);border-radius:15px;color:#fff;font-size:20px;cursor:pointer;background:linear-gradient(140deg,#258fdc,#7953d7,#a65ad0);box-shadow:0 5px 18px rgba(80,72,220,.32)}
+.music-panel{position:fixed;z-index:1001;left:12px;bottom:70px;width:min(310px,calc(100vw - 24px));padding:15px;border:1px solid rgba(154,126,255,.6);border-radius:18px;background:linear-gradient(145deg,rgba(22,17,48,.98),rgba(8,10,31,.98));color:#f5f3ff;box-shadow:0 12px 42px rgba(0,0,0,.48);display:none}
+.music-panel.open{display:block}.music-panel h3{font-size:15px;margin-bottom:10px}.music-panel select,.music-panel button{width:100%;margin-top:8px;padding:10px;border-radius:10px;border:1px solid #6550a0;background:#191538;color:white}.music-panel .music-row{display:flex;gap:8px}.music-panel .music-row button{flex:1;cursor:pointer}.music-panel .music-genres{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.music-panel .music-genres button{margin:0;cursor:pointer;font-size:12px;padding:9px 6px}
+.music-note{font-size:11px;color:#c5bee9;line-height:1.4;margin-top:8px}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="inner" id="card">
+
+<h2>APP ĐỘ NHẠY PREMIUM</h2>
+<div class="os-select">
+    <button class="os-btn active" onclick="setOS('ios', this)">IOS</button>
+    <button class="os-btn" onclick="setOS('android', this)">ANDROID</button>
+</div>
+
+<input id="device" type="text" placeholder="Nhập dòng máy (VD: iPhone 13, Samsung Galaxy S24)" oninput="handleDeviceTyping()" onblur="autoCorrectDeviceName()" onkeydown="handleEnter(event)" aria-describedby="deviceError">
+
+
+<button class="btn" onclick="gen()">🎯 LẤY ĐỘ NHẠY FREE</button>
+<button class="btn-reset" onclick="resetAll()">RESET</button>
+
+<div id="result"></div>
+
+</div>
+</div>
+
+<div class="display-adjust-overlay" id="displayAdjustOverlay" aria-hidden="true"></div>
+<button class="theme-fab" id="themeFab" aria-label="Mở chỉnh màu" title="Kéo để di chuyển · Chạm để chỉnh màu">✦</button>
+<section class="theme-panel" id="themePanel" aria-label="Bảng chỉnh màu giao diện">
+  <h3>✦ PHỐI MÀU GIAO DIỆN</h3>
+  <p class="sub">Kéo icon ✦ đến vị trí bạn thích. Chạm icon để mở bảng chỉnh màu.</p>
+  <div class="theme-section">
+    <label>🖥️ CHẾ ĐỘ TOÀN MÀN HÌNH</label>
+    <label style="display:flex;align-items:flex-start;gap:9px;margin:0;font-size:13px;color:#dedaf8">
+      <input id="autoFullscreenOnClick" type="checkbox" style="width:16px;height:16px;accent-color:#8b6cff;flex-shrink:0;margin-top:2px">
+      <span>Bật: chạm vào trang để mở toàn màn hình</span>
+    </label>
+    <p class="sub" style="margin:8px 0 0">Trình duyệt không cho web tự bấm phím F11. Tùy chọn này dùng chế độ toàn màn hình khi bạn chạm/click vào trang; có thể nhấn Esc để thoát trên máy tính.</p>
+  </div>
+  <div class="theme-section">
+    <label>Phối màu nhanh</label>
+    <div class="swatches">
+      <button class="swatch" title="Tím xanh dịu" aria-label="Tím xanh dịu" style="background:linear-gradient(135deg,#367bd0,#7152d5,#a45bcf)" onclick="applyTheme('soft')"></button>
+      <button class="swatch" title="Tím neon" aria-label="Tím neon" style="background:linear-gradient(135deg,#5744c9,#8b3ed0,#bd55db)" onclick="applyTheme('purple')"></button>
+      <button class="swatch" title="Xanh băng" aria-label="Xanh băng" style="background:linear-gradient(135deg,#167fbf,#3974df,#7669d9)" onclick="applyTheme('ice')"></button>
+      <button class="swatch" title="Hồng tím" aria-label="Hồng tím" style="background:linear-gradient(135deg,#5b49d2,#a34ac5,#d35fba)" onclick="applyTheme('pink')"></button>
+      <button class="swatch" title="Ngọc lam tím" aria-label="Ngọc lam tím" style="background:linear-gradient(135deg,#168f9d,#426ad4,#8956cc)" onclick="applyTheme('teal')"></button>
+    </div>
+  </div>
+  <div class="theme-section">
+    <label>⚙️ CHỨC NĂNG NHẬP DÒNG MÁY</label>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:#dedaf8">
+      <label style="display:flex;align-items:center;gap:9px;margin:0">
+        <input id="autoUppercase" type="checkbox" checked style="width:16px;height:16px;accent-color:#8b6cff">
+        Tự động viết hoa chữ
+      </label>
+      <label style="display:flex;align-items:center;gap:9px;margin:0">
+        <input id="autoCorrectDevice" type="checkbox" checked style="width:16px;height:16px;accent-color:#8b6cff">
+        Tự nhận diện và sửa tên dòng máy
+      </label>
+      <label style="display:flex;align-items:center;gap:9px;margin:0">
+        <input id="autoNoDiacritics" type="checkbox" checked style="width:16px;height:16px;accent-color:#8b6cff">
+        Tự động viết không dấu
+      </label>
+    </div>
+    <p class="sub" style="margin:8px 0 0">Tự sửa lỗi gõ tên hãng và dòng máy phổ biến: ipoen → IPHONE, redim → REDMI, samsng → SAMSUNG, sam a55 → SAMSUNG GALAXY A55.</p>
+  </div>
+  <div class="theme-section">
+    <label>🌈 MÀU ĐA SẮC & ĐỘ SÁNG MÀN HÌNH</label>
+    <div style="font-size:12px;color:#dedaf8">Độ sáng giao diện: <strong id="brightnessValue">100%</strong></div>
+    <input id="brightnessSlider" type="range" min="35" max="130" value="100" aria-label="Điều chỉnh độ sáng giao diện">
+    <div class="display-adjust-row">
+      <button type="button" id="brightnessDown">🌙 Tối đi</button>
+      <button type="button" id="brightnessUp">☀️ Sáng lên</button>
+      <button type="button" id="brightnessReset">↺ 100%</button>
+    </div>
+    <div style="font-size:12px;color:#dedaf8;margin-top:12px">Đổi sắc màu: <strong id="hueValue">0°</strong></div>
+    <input id="hueSlider" type="range" min="0" max="360" value="0" aria-label="Điều chỉnh sắc màu đa sắc">
+    <div class="rainbow-preview" aria-hidden="true"></div>
+    <div class="display-adjust-row">
+      <button type="button" id="hueReset">🎨 Màu gốc</button>
+      <button type="button" id="rainbowMode">🌈 Bật màu cầu vồng</button>
+    </div>
+    <p class="sub" style="margin:8px 0 0">Lưu ý: trình duyệt chỉ chỉnh độ sáng/màu hiển thị của trang app, không thể tự thay đổi độ sáng hệ thống của iPhone/Android.</p>
+  </div>
+  <div class="theme-section" id="customColorSection">
+    <label>🎨 TÙY CHỈNH MÀU TỪNG VỊ TRÍ</label>
+    <p class="sub">Bấm “Chọn vị trí”, rồi chạm vào phần muốn đổi màu trên trang. Có thể chọn một màu riêng hoặc phối 3 màu sáng thành gradient.</p>
+    <button type="button" id="pickColorTarget" style="width:100%;padding:10px;border-radius:11px;border:1px solid #8c7aff;background:linear-gradient(100deg,#168cff,#9b4dff,#ff4fc8);color:white;font-weight:700;cursor:pointer">🖱️ Chọn vị trí trên trang</button>
+    <div id="selectedColorTarget" class="sub" style="margin-top:8px">Chưa chọn vị trí</div>
+    <div class="theme-colors" style="margin-top:10px">
+      <div class="color-control">Màu 1 <input type="color" id="customColor1" value="#168cff"></div>
+      <div class="color-control">Màu 2 <input type="color" id="customColor2" value="#a044ff"></div>
+      <div class="color-control">Màu 3 <input type="color" id="customColor3" value="#ff4fc8"></div>
+    </div>
+    <div class="display-adjust-row" style="margin-top:9px">
+      <button type="button" id="applySingleCustomColor">🖌️ Dùng màu 1</button>
+      <button type="button" id="applyGradientCustomColor">🌈 Phối 3 màu</button>
+    </div>
+    <div class="display-adjust-row" style="margin-top:8px">
+      <button type="button" id="applyRandomColors">✨ Tự phối màu</button>
+      <button type="button" id="clearCustomColor">↩️ Bỏ màu vùng này</button>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:#dedaf8;font-weight:700">💡 GỢI Ý BẢNG MÀU</div>
+    <div class="display-adjust-row" style="margin-top:7px">
+      <button type="button" data-palette="neon">💙 Neon xanh tím</button>
+      <button type="button" data-palette="sunset">❤️ Hoàng hôn</button>
+    </div>
+    <div class="display-adjust-row" style="margin-top:7px">
+      <button type="button" data-palette="candy">💗 Kẹo ngọt</button>
+      <button type="button" data-palette="gold">💛 Vàng ánh kim</button>
+    </div>
+    <div class="display-adjust-row" style="margin-top:7px">
+      <button type="button" data-palette="ocean">🩵 Đại dương</button>
+      <button type="button" data-palette="forest">💚 Xanh lá</button>
+    </div>
+    <p class="sub" id="paletteSuggestion" style="margin-top:7px">Chọn gợi ý để nạp 3 màu, sau đó bấm “Phối 3 màu” để áp dụng.</p>
+    <p class="sub" style="margin-top:8px">Mẹo: chọn tiêu đề, nút, thanh chỉnh, khung hoặc nền. Một số phần có thể giữ màu chữ để dễ đọc.</p>
+  </div>
+  <div class="theme-section">
+    <label>Màu bên ngoài app</label>
+    <div class="theme-colors">
+      <div class="color-control">Nền trên <input type="color" value="#171033" data-var="--outer-start"></div>
+      <div class="color-control">Nền giữa <input type="color" value="#0b0820" data-var="--outer-mid"></div>
+      <div class="color-control">Nền tối <input type="color" value="#03020d" data-var="--outer-end"></div>
+      <div class="color-control">Viền xanh <input type="color" value="#426bdf" data-var="--accent-a"></div>
+    </div>
+  </div>
+  <div class="theme-section">
+    <label>Màu bên trong & thanh độ nhạy</label>
+    <div class="theme-colors">
+      <div class="color-control">Tím nền <input type="color" value="#201644" data-var="--inner-start"></div>
+      <div class="color-control">Xanh nền <input type="color" value="#121439" data-var="--inner-mid"></div>
+      <div class="color-control">Xanh thanh <input type="color" value="#43b9e8" data-var="--slider-a"></div>
+      <div class="color-control">Tím thanh <input type="color" value="#7c72e8" data-var="--slider-b"></div>
+      <div class="color-control">Tím sáng <input type="color" value="#a77be8" data-var="--slider-c"></div>
+      <div class="color-control">Điểm nhấn <input type="color" value="#a65ad0" data-var="--accent-d"></div>
+    </div>
+  </div>
+  <div class="theme-actions"><button onclick="resetTheme()">Khôi phục màu</button><button class="close-theme" onclick="toggleThemePanel(false)">Đóng bảng</button></div>
+</section>
+
+
+<button class="music-fab" id="musicFab" aria-label="Mở trình phát nhạc" title="Nhạc chill / remix">♫</button>
+<section class="music-panel" id="musicPanel" aria-label="Trình phát nhạc">
+  <h3>♫ MINI MUSIC — CHILL / REMIX</h3>
+  <select id="musicTrack" aria-label="Chọn nhạc">
+    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Chill electronic 01</option>
+    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Chill electronic 02</option>
+    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">Electronic mix 03</option>
+  </select>
+  <div class="music-row"><button id="musicPlay">▶ Phát nhạc</button><button id="musicStop">■ Dừng</button></div>
+  <div style="margin-top:12px;font-size:12px;color:#dedaf8">🔊 Âm lượng: <strong id="musicVolumeValue">70%</strong></div>
+  <input id="musicVolume" type="range" min="0" max="100" value="70" aria-label="Điều chỉnh âm lượng nhạc" style="width:100%;accent-color:#a77bff;margin-top:7px">
+  <div class="music-row"><button type="button" id="musicMute">🔇 Tắt tiếng</button><button type="button" id="musicVolumeMax">🔊 100%</button></div>
+  <div class="music-genres" aria-label="Chọn thể loại nhạc">
+    <button type="button" data-music-query="chill lofi vietnam playlist">☁ Chill Lofi</button>
+    <button type="button" data-music-query="deep chill vietnam mixset">🌙 Deep Chill</button>
+    <button type="button" data-music-query="nhac remix viet nam hot tiktok">⚡ Remix TikTok</button>
+    <button type="button" data-music-query="vinahouse remix viet nam">🔊 Vinahouse</button>
+    <button type="button" data-music-query="DJ nonstop cuc manh viet nam">🔥 DJ Nonstop</button>
+    <button type="button" data-music-query="DJ remix cuc chay bass boosted">💥 DJ Cực Cháy</button>
+    <button type="button" data-music-query="nhac remix 8x 9x hay nhat">🎧 Remix 8x 9x</button>
+    <button type="button" data-music-query="lofi remix chill tam trang">💜 Lofi Remix</button>
+  </div>
+  <div class="music-note">Chọn thể loại để mở danh sách phát trên YouTube. Các bản nhạc mẫu trong mục Phát nhạc là âm thanh minh hoạ; để nghe nhiều set DJ, remix và chill, chọn thể loại phù hợp bên trên.</div>
+  <audio id="musicAudio" preload="none" loop></audio>
+</section>
+
+<script>
+let currentOS = "ios";
+
+const autoNoDiacriticsToggle = document.getElementById("autoNoDiacritics");
+if (autoNoDiacriticsToggle) {
+    autoNoDiacriticsToggle.addEventListener("change", () => {
+        if (autoNoDiacriticsToggle.checked) handleDeviceTyping();
+    });
+}
+
+/* MINI MUSIC PLAYER: trình duyệt cần thao tác người dùng trước khi phát âm thanh */
+const musicFab = document.getElementById('musicFab');
+const musicPanel = document.getElementById('musicPanel');
+const musicAudio = document.getElementById('musicAudio');
+const musicTrack = document.getElementById('musicTrack');
+const musicVolume = document.getElementById('musicVolume');
+const musicVolumeValue = document.getElementById('musicVolumeValue');
+const musicMute = document.getElementById('musicMute');
+let previousMusicVolume = 0.7;
+musicAudio.volume = 0.7;
+function setMusicVolume(value) {
+  const volume = Math.max(0, Math.min(100, Number(value))) / 100;
+  musicAudio.volume = volume;
+  musicVolume.value = String(Math.round(volume * 100));
+  musicVolumeValue.textContent = Math.round(volume * 100) + '%';
+  musicMute.textContent = volume === 0 ? '🔊 Bật tiếng' : '🔇 Tắt tiếng';
+  if (volume > 0) previousMusicVolume = volume;
+}
+musicVolume.addEventListener('input', e => setMusicVolume(e.target.value));
+musicMute.addEventListener('click', () => setMusicVolume(musicAudio.volume > 0 ? 0 : previousMusicVolume * 100));
+document.getElementById('musicVolumeMax').addEventListener('click', () => setMusicVolume(100));
+const suggestedPalettes = {
+  neon: ['#00e5ff','#635bff','#ff35c8'], sunset: ['#ff3d6e','#ff8a3d','#ffd447'],
+  candy: ['#ff65c3','#bd72ff','#69d7ff'], gold: ['#fff06a','#ffb52e','#ff6a3d'],
+  ocean: ['#00e5ff','#168cff','#1747b8'], forest: ['#72ff9d','#00c98d','#b8f34a']
+};
+document.querySelectorAll('[data-palette]').forEach(button => button.addEventListener('click', () => {
+  const colors = suggestedPalettes[button.dataset.palette];
+  customColorInputs.forEach((input, i) => input.value = colors[i]);
+  const names = {neon:'Neon xanh tím',sunset:'Hoàng hôn',candy:'Kẹo ngọt',gold:'Vàng ánh kim',ocean:'Đại dương',forest:'Xanh lá'};
+  document.getElementById('paletteSuggestion').textContent = 'Đã nạp bảng màu ' + names[button.dataset.palette] + '. Bấm “Phối 3 màu” để áp dụng vào vị trí đã chọn.';
+}));
+musicFab.addEventListener('click', () => musicPanel.classList.toggle('open'));
+document.querySelectorAll('[data-music-query]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const query = button.getAttribute('data-music-query');
+    window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(query), '_blank', 'noopener,noreferrer');
+  });
+});
+musicTrack.addEventListener('change', () => {
+  const wasPlaying = !musicAudio.paused;
+  musicAudio.src = musicTrack.value;
+  if (wasPlaying) musicAudio.play().catch(() => {});
+});
+document.getElementById('musicPlay').addEventListener('click', () => {
+  if (!musicAudio.src || musicAudio.src !== musicTrack.value) musicAudio.src = musicTrack.value;
+  musicAudio.play().then(() => {
+    document.getElementById('musicPlay').textContent = '⏸ Đang phát';
+  }).catch(() => {
+    document.getElementById('musicPlay').textContent = '▶ Bấm lại để phát';
+  });
+});
+document.getElementById('musicStop').addEventListener('click', () => {
+  musicAudio.pause(); musicAudio.currentTime = 0;
+  document.getElementById('musicPlay').textContent = '▶ Phát nhạc';
+});
+
+
+/* BẢNG PHỐI MÀU CÓ THỂ KÉO ĐI */
+const themeFab = document.getElementById('themeFab');
+const themePanel = document.getElementById('themePanel');
+let fabDrag = null;
+let fabMoved = false;
+function toggleThemePanel(force){
+  const shouldOpen = typeof force === 'boolean' ? force : !themePanel.classList.contains('open');
+  themePanel.classList.toggle('open', shouldOpen);
+}
+// Trình duyệt không cho trang web gửi phím F11; dùng Fullscreen API theo thao tác người dùng.
+const autoFullscreenToggle = document.getElementById('autoFullscreenOnClick');
+document.addEventListener('click', async (event) => {
+  if (!autoFullscreenToggle.checked) return;
+  if (event.target.closest('#themePanel, #themeFab, #musicPanel, #musicFab, input, button, select, textarea, a')) return;
+  try {
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    }
+  } catch (err) {
+    // Một số trình duyệt hoặc chế độ xem nhúng không hỗ trợ toàn màn hình.
+  }
+});
+themeFab.addEventListener('pointerdown', e => {
+  fabDrag = {x:e.clientX, y:e.clientY, left:themeFab.offsetLeft, top:themeFab.offsetTop, id:e.pointerId};
+  fabMoved = false;
+  themeFab.setPointerCapture(e.pointerId);
+});
+themeFab.addEventListener('pointermove', e => {
+  if(!fabDrag || fabDrag.id !== e.pointerId) return;
+  const dx=e.clientX-fabDrag.x, dy=e.clientY-fabDrag.y;
+  if(Math.abs(dx)>4 || Math.abs(dy)>4) fabMoved=true;
+  if(fabMoved){
+    const x=Math.max(4,Math.min(window.innerWidth-themeFab.offsetWidth-4,fabDrag.left+dx));
+    const y=Math.max(4,Math.min(window.innerHeight-themeFab.offsetHeight-4,fabDrag.top+dy));
+    themeFab.style.left=x+'px'; themeFab.style.top=y+'px'; themeFab.style.right='auto';
+  }
+});
+themeFab.addEventListener('pointerup', e => {
+  if(fabDrag && fabDrag.id===e.pointerId && !fabMoved) toggleThemePanel();
+  fabDrag=null;
+});
+themeFab.addEventListener('pointercancel',()=>{fabDrag=null;});
+document.querySelectorAll('.theme-panel input[type="color"]').forEach(input=>{
+  input.addEventListener('input',()=>{
+    document.documentElement.style.setProperty(input.dataset.var,input.value);
+    if(input.dataset.var.startsWith('--slider-')) refreshSensitivityColors();
+  });
+});
+// Công cụ chọn trực tiếp một vùng trên trang rồi phối màu tùy ý.
+let customColorPicking = false;
+let selectedCustomColorElement = null;
+const colorTargetButton = document.getElementById('pickColorTarget');
+const colorTargetLabel = document.getElementById('selectedColorTarget');
+const customColorInputs = [1,2,3].map(n => document.getElementById('customColor'+n));
+function describeColorTarget(el) {
+  if (!el) return 'Chưa chọn vị trí';
+  const id = el.id ? '#'+el.id : '';
+  const cls = typeof el.className === 'string' && el.className.trim() ? '.'+el.className.trim().split(/\s+/).slice(0,2).join('.') : '';
+  return 'Đang chọn: <b>' + (el.tagName.toLowerCase()+id+cls).replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</b>';
+}
+colorTargetButton.addEventListener('click', () => {
+  customColorPicking = true;
+  colorTargetButton.textContent = '👆 Đang chọn… chạm vào vùng muốn đổi màu';
+  colorTargetButton.style.filter = 'brightness(1.2)';
+  toggleThemePanel(false);
+});
+document.addEventListener('click', e => {
+  if (!customColorPicking) return;
+  const el = e.target.closest('body *');
+  if (!el || el.closest('.theme-panel') || el.closest('.theme-fab') || el.closest('.music-panel') || el.closest('.music-fab')) return;
+  e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+  selectedCustomColorElement = el;
+  customColorPicking = false;
+  colorTargetButton.textContent = '🖱️ Chọn vị trí trên trang';
+  colorTargetButton.style.filter = '';
+  colorTargetLabel.innerHTML = describeColorTarget(el);
+  toggleThemePanel(true);
+}, true);
+function ensureColorTarget() {
+  if (!selectedCustomColorElement || !document.contains(selectedCustomColorElement)) {
+    colorTargetLabel.textContent = 'Chọn trước một vị trí trên trang.';
+    return false;
+  }
+  return true;
+}
+document.getElementById('applySingleCustomColor').addEventListener('click', () => {
+  if (!ensureColorTarget()) return;
+  const el = selectedCustomColorElement;
+  el.style.background = customColorInputs[0].value;
+  el.style.backgroundImage = 'none';
+  el.style.setProperty('border-color', customColorInputs[0].value, 'important');
+});
+document.getElementById('applyGradientCustomColor').addEventListener('click', () => {
+  if (!ensureColorTarget()) return;
+  const [a,b,c] = customColorInputs.map(i=>i.value);
+  selectedCustomColorElement.style.background = `linear-gradient(125deg, ${a}, ${b}, ${c})`;
+  selectedCustomColorElement.style.setProperty('border-color', b, 'important');
+});
+document.getElementById('applyRandomColors').addEventListener('click', () => {
+  const rand = () => '#'+Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+  customColorInputs.forEach(i=>{i.value=rand();});
+  if (ensureColorTarget()) {
+    const [a,b,c] = customColorInputs.map(i=>i.value);
+    selectedCustomColorElement.style.background = `linear-gradient(125deg, ${a}, ${b}, ${c})`;
+    selectedCustomColorElement.style.setProperty('border-color', b, 'important');
+  }
+});
+document.getElementById('clearCustomColor').addEventListener('click', () => {
+  if (!ensureColorTarget()) return;
+  selectedCustomColorElement.style.removeProperty('background');
+  selectedCustomColorElement.style.removeProperty('background-image');
+  selectedCustomColorElement.style.removeProperty('border-color');
+});
+function refreshSensitivityColors(){
+  document.querySelectorAll('.slider-box input[type="range"]').forEach(el=>{
+    const value=Number(el.value);
+    el.style.setProperty('--color',getColor(value));
+  });
+}
+// Điều chỉnh độ sáng và sắc màu của giao diện trong trang web.
+const brightnessSlider = document.getElementById('brightnessSlider');
+const brightnessValue = document.getElementById('brightnessValue');
+const hueSlider = document.getElementById('hueSlider');
+const hueValue = document.getElementById('hueValue');
+const displayOverlay = document.getElementById('displayAdjustOverlay');
+let rainbowEnabled = false;
+function applyDisplayBrightness(value) {
+  const n = Math.max(35, Math.min(130, Number(value) || 100));
+  brightnessSlider.value = n;
+  brightnessValue.textContent = n + '%';
+  if (n < 100) {
+    displayOverlay.style.background = '#000';
+    displayOverlay.style.mixBlendMode = 'multiply';
+    displayOverlay.style.opacity = String((100 - n) / 100 * 0.78);
+  } else if (n > 100) {
+    displayOverlay.style.background = '#fff';
+    displayOverlay.style.mixBlendMode = 'screen';
+    displayOverlay.style.opacity = String((n - 100) / 30 * 0.42);
+  } else {
+    displayOverlay.style.opacity = '0';
+  }
+}
+function applyHue(value) {
+  const n = Number(value) || 0;
+  hueSlider.value = n;
+  hueValue.textContent = n + '°';
+  document.getElementById('card').style.filter = `hue-rotate(${n}deg) saturate(1.12)`;
+}
+brightnessSlider.addEventListener('input', e => applyDisplayBrightness(e.target.value));
+document.getElementById('brightnessDown').addEventListener('click', () => applyDisplayBrightness(Number(brightnessSlider.value) - 10));
+document.getElementById('brightnessUp').addEventListener('click', () => applyDisplayBrightness(Number(brightnessSlider.value) + 10));
+document.getElementById('brightnessReset').addEventListener('click', () => applyDisplayBrightness(100));
+hueSlider.addEventListener('input', e => { rainbowEnabled = false; document.getElementById('rainbowMode').textContent = '🌈 Bật màu cầu vồng'; applyHue(e.target.value); });
+document.getElementById('hueReset').addEventListener('click', () => { rainbowEnabled = false; document.getElementById('rainbowMode').textContent = '🌈 Bật màu cầu vồng'; applyHue(0); });
+document.getElementById('rainbowMode').addEventListener('click', () => {
+  rainbowEnabled = !rainbowEnabled;
+  const card = document.getElementById('card');
+  document.getElementById('rainbowMode').textContent = rainbowEnabled ? '⏸ Tắt màu cầu vồng' : '🌈 Bật màu cầu vồng';
+  if (rainbowEnabled) {
+    card.style.transition = 'filter .7s ease';
+    let hue = Number(hueSlider.value) || 0;
+    applyHue(hue);
+    if (window.__rainbowTimer) clearInterval(window.__rainbowTimer);
+    window.__rainbowTimer = setInterval(() => { if (!rainbowEnabled) { clearInterval(window.__rainbowTimer); return; } hue = (hue + 8) % 360; hueSlider.value = hue; hueValue.textContent = hue + '°'; card.style.filter = `hue-rotate(${hue}deg) saturate(1.35)`; }, 180);
+  } else {
+    if (window.__rainbowTimer) clearInterval(window.__rainbowTimer);
+    applyHue(hueSlider.value);
+  }
+});
+
+function applyTheme(name){
+ const themes={
+  soft:{'--outer-start':'#171033','--outer-mid':'#0b0820','--outer-end':'#03020d','--inner-start':'#201644','--inner-mid':'#121439','--inner-end':'#0c0a25','--accent-a':'#258fdc','--accent-b':'#5268e4','--accent-c':'#7953d7','--accent-d':'#a65ad0','--slider-a':'#43b9e8','--slider-b':'#7c72e8','--slider-c':'#a77be8'},
+  purple:{'--outer-start':'#1b1038','--outer-mid':'#100923','--outer-end':'#05020e','--inner-start':'#29164a','--inner-mid':'#19113b','--inner-end':'#100a2a','--accent-a':'#5650d8','--accent-b':'#7549d4','--accent-c':'#9849cf','--accent-d':'#b75bd8','--slider-a':'#6d8dff','--slider-b':'#9a67e8','--slider-c':'#c17be8'},
+  ice:{'--outer-start':'#0b203b','--outer-mid':'#07152c','--outer-end':'#020814','--inner-start':'#14294b','--inner-mid':'#101d3d','--inner-end':'#09142d','--accent-a':'#168fc5','--accent-b':'#3974df','--accent-c':'#5968df','--accent-d':'#8b67df','--slider-a':'#47c8ee','--slider-b':'#688bfa','--slider-c':'#9b8af4'},
+  pink:{'--outer-start':'#21102f','--outer-mid':'#12091f','--outer-end':'#06020d','--inner-start':'#301744','--inner-mid':'#1d1238','--inner-end':'#100922','--accent-a':'#6253db','--accent-b':'#8b4ed4','--accent-c':'#b14cc9','--accent-d':'#d35fba','--slider-a':'#6aa9ff','--slider-b':'#a66bea','--slider-c':'#d477df'},
+  teal:{'--outer-start':'#0a2435','--outer-mid':'#071725','--outer-end':'#020a11','--inner-start':'#12303e','--inner-mid':'#10233a','--inner-end':'#09162a','--accent-a':'#168f9d','--accent-b':'#426ad4','--accent-c':'#6a5bd1','--accent-d':'#8956cc','--slider-a':'#50d3d0','--slider-b':'#638ef0','--slider-c':'#a17be8'}
+ };
+ const colors=themes[name]||themes.soft;
+ Object.entries(colors).forEach(([key,value])=>document.documentElement.style.setProperty(key,value));
+ document.querySelectorAll('.theme-panel input[type="color"]').forEach(input=>{if(colors[input.dataset.var]) input.value=colors[input.dataset.var];});
+ refreshSensitivityColors();
+}
+function resetTheme(){applyTheme('soft');}
+
+
+function setOS(os, el) {
+    currentOS = os;
+    document.querySelectorAll(".os-btn").forEach(btn => {
+        const active = btn.textContent.trim().toLowerCase() === (os === "ios" ? "ios" : "android");
+        btn.classList.toggle("active", active);
+    });
+}
+
+// Tự nhận diện hệ điều hành kể cả khi tên hãng bị gõ sai nhẹ.
+function autoDetectOSFromDevice(value) {
+    const text = (value || "").toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d").replace(/[^a-z0-9]+/g, " ").trim()
+        .replace(/\s+/g, " ");
+    if (!text) return;
+
+    const first = text.split(" ")[0];
+    const aliases = {
+        ios: ["iphone", "iphon", "iphne", "ipone", "ipoen", "iphoen", "iphn", "iph", "ihpone"],
+        android: ["samsung", "samsng", "samsun", "samsug", "samung", "samsang", "ss", "ssa", "sam", "galaxy", "redmi", "redmii", "redim", "readmi", "rdmi", "xiaomi", "xaomi", "xiomi", "poco", "pco", "oppo", "opo", "vivo", "vivoo", "realme", "realmi", "reame", "relme", "oneplus", "oneplu", "pixel", "pixle", "huawei", "huawai", "honor", "honour", "tecno", "techo", "infinix", "infinx", "motorola", "motorolla", "moto", "nokia", "noika", "asus", "assus", "sony", "lenovo", "nothing", "meizu", "zte", "sharp", "alcatel", "htc", "lg", "iqoo", "iqo", "itel", "lava", "micromax", "blackview", "doogee", "ulefone", "fairphone", "cat", "rog", "redmagic", "nubia", "umidigi", "tec", "inf", "hua", "hon", "pixe"]
+    };
+    // So khớp lỗi gõ nhỏ (Levenshtein) với tên hãng; tránh tự đoán từ quá ngắn.
+    function distance(a, b) {
+        const row = Array.from({length: b.length + 1}, (_, i) => i);
+        for (let i = 1; i <= a.length; i++) {
+            let prev = row[0]; row[0] = i;
+            for (let j = 1; j <= b.length; j++) {
+                const old = row[j];
+                row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+                prev = old;
+            }
+        }
+        return row[b.length];
+    }
+
+    if (/^(?:iphone|i phone|iph|ipho|iphne|ipoen|ipone|iphn)(?:\s|\d|$)/.test(text) || /^ip\s*\d/.test(text)) {
+        setOS("ios");
+        return;
+    }
+    if (aliases.android.includes(first) || /^(?:redmi|xiaomi|poco|oppo|vivo|realme|oneplus|pixel|huawei|honor|tecno|infinix|motorola|nokia|asus|sony|lenovo|nothing|meizu|zte|sharp|alcatel|htc|iqoo|itel|lava|blackview|doogee|ulefone|fairphone|redmagic|nubia|umidigi|samsung|galaxy)(?:\s|\d|$)/.test(text)) {
+        setOS("android");
+        return;
+    }
+    if (first.length >= 5) {
+        const iosNear = aliases.ios.some(a => distance(first, a) <= 1);
+        const androidNear = aliases.android.some(a => a.length >= 4 && distance(first, a) <= 1);
+        if (iosNear) setOS("ios");
+        else if (androidNear) setOS("android");
+    }
+}
+
+// XỬ LÝ PHÍM ENTER
+function handleEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Ngăn form submit nếu có
+        gen(); // Gọi hàm tạo độ nhạy
+    }
+}
+
+function rand(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function fix(x) {
+    return Math.max(0, Math.min(200, Math.round(x)));
+}
+
+/* MÀU XANH THEO MỨC */
+function getColor(val){
+    if(val < 80) return getComputedStyle(document.documentElement).getPropertyValue("--slider-a").trim() || "#43b9e8";
+    if(val < 140) return getComputedStyle(document.documentElement).getPropertyValue("--slider-b").trim() || "#7c72e8";
+    return getComputedStyle(document.documentElement).getPropertyValue("--slider-c").trim() || "#a77be8";
+}
+
+/* CREATE SLIDER */
+function createSlider(name, value, delay) {
+    let id = "s" + Math.random();
+    setTimeout(() => animateSlider(id, value), delay);
+
+    return `
+    <div class="item">
+        <div>${name}</div>
+        <div class="slider-box">
+            <input id="${id}" type="range" min="0" max="200" value="0"
+            style="--val:0%; --color:${getColor(value)}">
+            <span class="value">${value}</span>
+        </div>
+    </div>
+    `;
+}
+
+/* ANIMATE */
+function animateSlider(id, target){
+    let el = document.getElementById(id);
+    let val = 0;
+
+    let interval = setInterval(() => {
+        val += 3;
+        if(val >= target){
+            val = target;
+            clearInterval(interval);
+
+            el.classList.add("pulse");
+            setTimeout(() => el.classList.remove("pulse"), 300);
+        }
+        el.value = val;
+        el.style.setProperty("--val", (val/2) + "%");
+    }, 10);
+}
+
+/*
+ * Danh sách dòng máy được hỗ trợ trong phiên bản này.
+ * Có thể bổ sung model vào các mảng bên dưới khi cần.
+ */
+const knownDevices = {
+    ios: [
+        "iphone 6", "iphone 6s", "iphone 7", "iphone 8", "iphone se",
+        "iphone x", "iphone xs", "iphone xr", "iphone 11", "iphone 12",
+        "iphone 13", "iphone 14", "iphone 15", "iphone 16", "iphone 17", "iphone 17 pro", "iphone 17 pro max", "iphone 16e", "iphone 16 pro", "iphone 16 pro max", "iphone 16 plus", "iphone 15 pro", "iphone 15 pro max", "iphone 15 plus", "iphone 14 pro", "iphone 14 pro max", "iphone 14 plus", "iphone 13 pro", "iphone 13 pro max", "iphone 13 mini", "iphone 12 pro", "iphone 12 pro max", "iphone 12 mini", "iphone 11 pro", "iphone 11 pro max"
+    ],
+    android: [
+        "samsung galaxy", "samsung galaxy s", "samsung galaxy a",
+        "samsung galaxy z", "samsung galaxy note",
+        "redmi", "xiaomi", "poco", "oppo", "vivo", "realme",
+        "oneplus", "google pixel", "huawei", "honor", "tecno", "infinix"
+    ]
+};
+
+function normalizeDevice(value) {
+    return value.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, " ").trim()
+        .replace(/\s+/g, " ");
+}
+
+function handleDeviceTyping() {
+    const input = document.getElementById("device");
+    const start = input.selectionStart, end = input.selectionEnd;
+    const noDiacritics = document.getElementById("autoNoDiacritics");
+    if (noDiacritics && noDiacritics.checked) {
+        const before = input.value;
+        const stripped = before.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[đĐ]/g, m => m === "Đ" ? "D" : "d");
+        if (stripped !== before) input.value = stripped;
+    }
+    autoDetectOSFromDevice(input.value);
+    if (document.getElementById("autoUppercase").checked) {
+        input.value = input.value.toLocaleUpperCase("vi-VN");
+    }
+    try { input.setSelectionRange(start, end); } catch (_) {}
+    clearDeviceError();
+}
+
+function autoCorrectDeviceName() {
+    const input = document.getElementById("device");
+    const toggle = document.getElementById("autoCorrectDevice");
+    if (toggle && !toggle.checked) return;
+    const raw = input.value.trim();
+    if (!raw) return;
+    autoDetectOSFromDevice(raw);
+
+    const upper = document.getElementById("autoUppercase")?.checked;
+    const clean = value => value.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
+
+    function editDistance(a, b) {
+        const row = Array.from({length: b.length + 1}, (_, i) => i);
+        for (let i = 1; i <= a.length; i++) {
+            let prev = row[0]; row[0] = i;
+            for (let j = 1; j <= b.length; j++) {
+                const old = row[j];
+                row[j] = Math.min(row[j] + 1, row[j - 1] + 1,
+                    prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+                prev = old;
+            }
+        }
+        return row[b.length];
+    }
+
+    // Bí danh và cách gõ tắt phổ biến; giữ các hãng/mã chưa biết để không đoán quá đà.
+    const brandAliases = {
+        iphone: ["iphone","ipone","ipoen","iphon","iphne","iphoen","iphn","iph","ih","ip","iphnoe","iphine","ifone"],
+        samsung: ["samsung","samsng","samsun","samsug","samung","samsungg","samsang","samsumg","samsuung","samsnug","ss","sam","sams","ssa"],
+        galaxy: ["galaxy","galaxi","galxy","galxay"],
+        redmi: ["redmi","redim","readmi","redm","red","rdmi","redmii","redmi note","re"],
+        xiaomi: ["xiaomi","xaomi","xiaom","xiomi","xiaomii","xaiomi","xiaomie","xiao","xia"],
+        poco: ["poco","pco","pooc","pocco"],
+        oppo: ["oppo","opo","oppoo","oppoo"],
+        vivo: ["vivo","vivoo","vvi","vivoo"],
+        realme: ["realme","reame","realmi","relme","real","reallme","realmee"],
+        oneplus: ["oneplus","oneplu","one puls","one plus"],
+        pixel: ["pixel","pixle","pixe","pixxel","googlepixel"],
+        huawei: ["huawei","huawai","huawe","huaw"],
+        honor: ["honor","honour","onor"],
+        tecno: ["tecno","techo","tecnno"],
+        infinix: ["infinix","infinx","infiniks"],
+        motorola: ["motorola","motorolla","motrola","motorla"],
+        nokia: ["nokia","noika","nokai"],
+        asus: ["asus","assus","asuss"], sony: ["sony","s ony"],
+        lenovo: ["lenovo","lenvo"], nothing: ["nothing","nothng"],
+        meizu: ["meizu","mezu"], lg: ["lg"], htc: ["htc"], zte: ["zte"],
+        sharp: ["sharp"], alcatel: ["alcatel"], iqoo: ["iqoo","iqo"], itel: ["itel","itel"], redmagic: ["redmagic","red magic"], nubia: ["nubia","nubiya"], umidigi: ["umidigi","umidigi"], rog: ["rog","asus rog"], blackview: ["blackview","black view"], doogee: ["doogee","dogee"], ulefone: ["ulefone","ulefon"], fairphone: ["fairphone","fair phone"]
+    };
+
+    const canonical = Object.keys(brandAliases);
+    function fixBrand(token) {
+        for (const [brand, aliases] of Object.entries(brandAliases)) {
+            if (aliases.includes(token)) return brand;
+        }
+        if (token.length < 3) return token;
+        // Chọn tiền tố gần nhất; "rea" / "real" ưu tiên Realme, "re" ưu tiên Redmi.
+        const prefixRules = [
+            [/^real/, "realme"], [/^red/, "redmi"], [/^xia/, "xiaomi"],
+            [/^iph|^ipho|^ih/, "iphone"], [/^sam|^ssa|^sams/, "samsung"],
+            [/^gal/, "galaxy"], [/^opp|^opo/, "oppo"], [/^viv|^vvi/, "vivo"],
+            [/^poc|^pco/, "poco"], [/^hon/, "honor"], [/^hua/, "huawei"],
+            [/^tec/, "tecno"], [/^inf/, "infinix"], [/^mot/, "motorola"],
+            [/^nok/, "nokia"], [/^onep/, "oneplus"], [/^pix/, "pixel"], [/^iqo/, "iqoo"], [/^itel/, "itel"], [/^redm/, "redmi"], [/^nub/, "nubia"], [/^rog/, "rog"], [/^redm/, "redmagic"]
+        ];
+        for (const [pattern, brand] of prefixRules) if (pattern.test(token)) return brand;
+        let best = token, bestScore = Infinity;
+        for (const brand of canonical) {
+            if (Math.abs(brand.length - token.length) > (token.length > 7 ? 2 : 1)) continue;
+            const d = editDistance(token, brand);
+            if (d < bestScore) { bestScore = d; best = brand; }
+        }
+        return bestScore <= (token.length >= 7 ? 2 : 1) ? best : token;
+    }
+
+    let text = clean(raw).replace(/\s+/g, " ");
+
+    // Nhận diện hãng viết liền với model: ssa12, ss a12, re12, real12, ip12...
+    let m;
+    if ((m = text.match(/^(?:ssa|ss|sam|sams(?:ung)?)\s*(?:galaxy\s*)?([a-z]?)\s*(\d{1,3})(.*)$/))) {
+        const series = (m[1] || "a").toLowerCase();
+        const model = m[2];
+        text = `samsung galaxy ${series}${model} ${m[3]}`.trim();
+    } else if ((m = text.match(/^(?:i|ip|iph|ih|iphone)\s*(\d{1,2})(.*)$/))) {
+        text = `iphone ${m[1]} ${m[2]}`.trim();
+    } else if (/^(?:i\s*phone|iphone)\s*(se|x|xr|xs)\b/.test(text)) {
+        text = text.replace(/^(?:i\s*phone|iphone)\s*(se|x|xr|xs)\b/, 'iphone $1');
+    } else if ((m = text.match(/^(?:re|red|redm|redmi)\s*(?:(note)\s*)?(\d{1,2})(.*)$/))) {
+        text = `redmi ${m[1] ? "note " : ""}${m[2]} ${m[3]}`.trim();
+    } else if ((m = text.match(/^(?:real|realme|reame|relme)\s*(?:(c|gt|narzo)\s*)?(\d{1,3})?(.*)$/))) {
+        text = `realme ${m[1] ? m[1] + " " : ""}${m[2] || ""} ${m[3]}`.trim();
+    } else if ((m = text.match(/^(xia|xiaomi|xiao)\s*(\d{1,2})(.*)$/))) {
+        text = `xiaomi ${m[2]} ${m[3]}`.trim();
+    } else if ((m = text.match(/^(op|opo|oppo|viv|vvi|vivo|pco|poco|tec|tecno|inf|infinix|hon|honor|hua|huawei|pix|pixel)\s*(\d{1,3})(.*)$/))) {
+        text = `${fixBrand(m[1])} ${m[2]} ${m[3]}`.trim();
+    }
+
+    let words = text.split(" ").filter(Boolean);
+    if (words.length) {
+        words[0] = fixBrand(words[0]);
+        // Samsung A12/S24: bổ sung tên dòng đầy đủ.
+        if (words[0] === "samsung" && words[1] && words[1] !== "galaxy") {
+            if (/^[aszm]\d{1,3}$/i.test(words[1])) words.splice(1, 0, "galaxy");
+        }
+    }
+    let result = words.join(" ");
+
+    result = result
+        .replace(/^samsung\s+(?!galaxy\b)([aszm])\s*(\d{1,3})\b/, "samsung galaxy $1$2")
+        .replace(/^samsung\s+galaxy\s+([aszm])\s*(\d{1,3})\b/, (_, series, number) => `samsung galaxy ${series}${number}`)
+        .replace(/^iphone\s*(\d{1,2})\b/, "iphone $1")
+        .replace(/^redmi\s*note\s*(\d{1,2})\b/, "redmi note $1")
+        .replace(/^redmi\s*(\d{1,2})\b/, "redmi $1")
+        .replace(/^realme\s*(c|gt|narzo)\s*(\d{1,3})\b/, "realme $1 $2")
+        .replace(/^xiaomi\s*(\d{1,2})\b/, "xiaomi $1")
+        .replace(/\s+/g, " ").trim();
+
+    input.value = upper ? result.toLocaleUpperCase("vi-VN") : result;
+}
+function clearDeviceError() {
+    const error = document.getElementById("deviceError");
+    if (error) {
+        error.style.display = "none";
+        error.textContent = "";
+    }
+}
+
+function validateDevice() {
+    const input = document.getElementById("device").value.trim();
+    const error = document.getElementById("deviceError");
+    if (!input) {
+        if (error) {
+            error.textContent = "Vui lòng nhập dòng máy trước khi lấy độ nhạy.";
+            error.style.display = "block";
+        }
+        document.getElementById("device").focus();
+        return false;
+    }
+    if (error) {
+        error.style.display = "none";
+        error.textContent = "";
+    }
+    return true;
+}
+
+function gen() {
+    autoCorrectDeviceName();
+    if (!validateDevice()) return;
+    const deviceName = document.getElementById("device").value.trim();
+    let base = currentOS === "ios" ? 150 : 165;
+    // Tinh chỉnh tham chiếu theo thế hệ máy; đây là gợi ý ngẫu nhiên, không thay đổi cài đặt hệ thống.
+    const normalizedModel = normalizeDevice(deviceName);
+    if (currentOS === "ios") {
+        const genMatch = normalizedModel.match(/iphone\s+(\d{1,2})/);
+        const generation = genMatch ? Number(genMatch[1]) : 13;
+        if (generation >= 16) base = 154;
+        else if (generation >= 14) base = 152;
+        else if (generation <= 8) base = 142;
+        else if (generation <= 11) base = 146;
+        if (/pro max|plus/.test(normalizedModel)) base += 2;
+        if (/mini|se\b/.test(normalizedModel)) base -= 2;
+    }
+
+    let s1 = fix(rand(base - 20, base + 30));
+    let s2 = fix(rand(base - 40, base + 10));
+    let s3 = fix(rand(base - 25, base + 20));
+    let s4 = fix(rand(base - 25, base + 25));
+    let sniper = fix(rand(base - 30, base + 15));
+    let cam = fix(rand(120, 200));
+
+    let fire = Math.round(rand(30, 50));
+    let dpi = Math.round(rand(300, 800));
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").innerHTML = `
+        <div class="device-success">✓ Đã nhận diện dòng máy: ${deviceName.replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}</div>
+        ${createSlider("🌀 Nhìn Xung Quanh", s1, 0)}
+        ${createSlider("🔴 Ống Ngắm Hồng Tâm", s2, 100)}
+        ${createSlider("🔭 Ống Ngắm X2", s3, 200)}
+        ${createSlider("🔭 Ống Ngắm X4", s4, 300)}
+        ${createSlider("🎯 Ống Ngắm Súng Ngắm", sniper, 400)}
+        ${createSlider("📷 Camera Nhìn Xung Quanh", cam, 500)}
+
+        <div class="item">🔥 Nút Bắn: <span class="fire">${fire}%</span></div>
+        <div class="item">⚙️ DPI SENSIVITY : <span class="value">${dpi}</span></div>
+    `;
+}
+
+function resetAll() {
+    document.getElementById("device").value = "";
+    clearDeviceError();
+    document.getElementById("result").style.display = "none";
+    document.getElementById("result").innerHTML = "";
+
+    currentOS = "ios";
+    document.querySelectorAll(".os-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".os-btn")[0].classList.add("active");
+
+    let card = document.getElementById("card");
+    card.classList.add("flash");
+    setTimeout(() => card.classList.remove("flash"), 400);
+}
+
+/* SNOW */
+function createSnow() {
+    for (let i = 0; i < 40; i++) {
+        let snow = document.createElement("div");
+        snow.className = "snow";
+        snow.innerHTML = "❄️";
+        snow.style.left = Math.random() * 100 + "vw";
+        snow.style.animationDuration = (3 + Math.random() * 5) + "s";
+        snow.style.opacity = Math.random();
+        document.body.appendChild(snow);
+    }
+}
+createSnow();
+</script>
+
+</body>
+</html>
